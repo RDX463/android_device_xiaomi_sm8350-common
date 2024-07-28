@@ -8,9 +8,6 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Enable updating of APEXes
-$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
-
 # Enable virtual A/B OTA
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
 
@@ -33,6 +30,9 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing \
     libtinycompress \
     libvolumelistener
+
+PRODUCT_PACKAGES += \
+    libaudioroute.vendor
 
 PRODUCT_PACKAGES += \
     audioadsprpcd \
@@ -131,6 +131,9 @@ PRODUCT_PACKAGES += \
     libMegviiFacepp-0.5.2 \
     libmegface
 
+PRODUCT_PACKAGES += \
+    liblz4.vendor
+
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/camera_cnf.txt:$(TARGET_COPY_OUT_VENDOR)/etc/camera/camera_cnf.txt
 
@@ -163,7 +166,6 @@ PRODUCT_PACKAGES += \
     libdisplayconfig.system.qti \
     libqdMetaData \
     libqdMetaData.system \
-    libtinyxml \
     memtrack.default
 
 PRODUCT_COPY_FILES += \
@@ -171,7 +173,8 @@ PRODUCT_COPY_FILES += \
 
 # DRM
 PRODUCT_PACKAGES += \
-    android.hardware.drm@1.4-service.clearkey
+    android.hardware.drm@1.3.vendor \
+    android.hardware.drm-service.clearkey
 
 # Fastbootd
 PRODUCT_PACKAGES += \
@@ -232,8 +235,7 @@ PRODUCT_COPY_FILES += \
 
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl-qti \
-    android.hardware.health@2.1-service
+    android.hardware.health-service.qti
 
 PRODUCT_PACKAGES += \
     libhidltransport.vendor \
@@ -276,6 +278,9 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.consumerir.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.consumerir.xml
+
+# Kernel
+PRODUCT_ENABLE_UFFD_GC := false
 
 # Keymaster
 PRODUCT_PACKAGES += \
@@ -396,11 +401,18 @@ PRODUCT_PACKAGES += \
     android.hardware.power@1.2.vendor \
     vendor.qti.hardware.perf@2.2.vendor
 
+PRODUCT_PACKAGES += \
+    libssl.vendor
+
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/task_profiles.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
 PRODUCT_COPY_FILES += \
     vendor/qcom/opensource/power/config/lahaina/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
+
+# Protobuf
+PRODUCT_PACKAGES += \
+    libprotobuf-cpp-full-3.9.1-vendorcompat
 
 # QTI
 PRODUCT_PACKAGES += \
@@ -428,8 +440,14 @@ PRODUCT_PACKAGES += \
     libprotobuf-cpp-lite-3.9.1-vendorcompat \
     librmnetctl
 
+PRODUCT_PACKAGES += \
+    libcurl.vendor \
+    libjsoncpp.vendor \
+    libsqlite.vendor
+
 # Sensors
 PRODUCT_PACKAGES += \
+    android.frameworks.sensorservice@1.0.vendor \
     android.hardware.sensors@2.1-service.xiaomi-multihal \
     vendor.qti.hardware.display.mapper@1.1.vendor
 
@@ -549,6 +567,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libnl \
     libwfdaac_vendor
+
+PRODUCT_PACKAGES += \
+    libpng.vendor
 
 PRODUCT_BOOT_JARS += \
     WfdCommon
